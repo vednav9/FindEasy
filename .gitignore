@@ -91,6 +91,7 @@ ios/Runner/GoogleService-Info.plist
 **/assets/service_account.json
 **/backend/*.json
 Token.txt
+token/
 lib/firebase_options.dart 
 # ^ Optional: hide firebase_options.dart if you want to keep App IDs private
 

@@ -8,6 +8,12 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
 }
 
+val localProperties = java.util.Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(java.io.FileInputStream(localPropertiesFile))
+}
+
 android {
     namespace = "com.example.miniproject6"
     compileSdk = 35
