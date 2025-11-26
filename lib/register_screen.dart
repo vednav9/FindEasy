@@ -43,9 +43,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     // Only check provider fields if user is actually a provider
     if (userType == "provider") {
-      return doc.get("businessName") != null &&
-          doc.get("contactNumber") != null &&
-          doc.get("servicesOffered") != null;
+      final data = doc.data() as Map<String, dynamic>?;
+      if (data != null && data.containsKey('businessName')) {
+        return data['businessName'] != null &&
+               data['contactNumber'] != null &&
+               data['servicesOffered'] != null;
+      }
     }
 
     // Customers are always considered "complete"

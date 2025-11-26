@@ -20,27 +20,80 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
 
   Future<void> _locateUser() async {
     setState(() => _isLoadingLocation = true);
-    final location = loc.Location();
-    final locData = await location.getLocation();
-    _mapController?.animateCamera(
-      CameraUpdate.newLatLngZoom(
-        LatLng(locData.latitude!, locData.longitude!),
-        16,
-      ),
-    );
-    setState(() => _isLoadingLocation = false);
+    try {
+      final location = loc.Location();
+      
+      // Check if location service is enabled
+      bool serviceEnabled = await location.serviceEnabled();
+      if (!serviceEnabled) {
+        serviceEnabled = await location.requestService();
+        if (!serviceEnabled) {
+          setState(() => _isLoadingLocation = false);
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Location service is disabled')),
+            );
+          }
+          return;
+        }
+      }
+
+      // Check if permission is granted
+      loc.PermissionStatus permissionGranted = await location.hasPermission();
+      if (permissionGranted == loc.PermissionStatus.denied) {
+        permissionGranted = await location.requestPermission();
+        if (permissionGranted != loc.PermissionStatus.granted) {
+          setState(() => _isLoadingLocation = false);
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Location permission denied')),
+            );
+          }
+          return;
+        }
+      }
+
+      final locData = await location.getLocation();
+      _mapController?.animateCamera(
+        CameraUpdate.newLatLngZoom(
+          LatLng(locData.latitude!, locData.longitude!),
+          16,
+        ),
+      );
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error getting location: $e')),
+        );
+      }
+    } finally {
+      setState(() => _isLoadingLocation = false);
+    }
   }
 
   Future<void> _reverseGeocode(LatLng position) async {
-    final placemarks = await placemarkFromCoordinates(
-      position.latitude,
-      position.longitude,
-    );
-    final place = placemarks.first;
-    setState(() {
-      _pickedAddress =
-          "${place.name}, ${place.locality}, ${place.administrativeArea}, ${place.country}";
-    });
+    try {
+      final placemarks = await placemarkFromCoordinates(
+        position.latitude,
+        position.longitude,
+      );
+      if (placemarks.isNotEmpty) {
+        final place = placemarks.first;
+        setState(() {
+          _pickedAddress =
+              "${place.name}, ${place.locality}, ${place.administrativeArea}, ${place.country}";
+        });
+      }
+    } catch (e) {
+      setState(() {
+        _pickedAddress = "Lat: ${position.latitude.toStringAsFixed(4)}, Lng: ${position.longitude.toStringAsFixed(4)}";
+      });
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Could not get address: $e')),
+        );
+      }
+    }
   }
 
   void _onMapTap(LatLng position) {
