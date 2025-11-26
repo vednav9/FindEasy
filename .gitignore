@@ -1,0 +1,98 @@
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.build/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+migrate_working_dir/
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# The .vscode folder contains launch configuration and tasks you configure in
+# VS Code which you may wish to be included in version control, so this line
+# is commented out by default.
+#.vscode/
+
+# Flutter/Dart/Pub related
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+/build/
+
+# Symbolication related
+app.*.symbols
+
+# Obfuscation related
+app.*.map.json
+
+# Android Studio will place build artifacts here
+/android/app/debug
+/android/app/profile
+/android/app/release
+
+# Flutter/Dart/Pub related
+.dart_tool/
+.packages
+.pub/
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+.melos_tool/
+generated_plugin_registrant.dart
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+
+# Others
+*.log
+*.lock
+*.tmp
+
+# Android related
+**/android/**/gradle-wrapper.jar
+**/android/.gradle
+**/android/captures/
+**/android/gradlew
+**/android/gradlew.bat
+**/android/local.properties
+**/android/**/generated/
+**/android/**/intermediates/
+**/android/**/tmp/
+
+# iOS related
+**/ios/**/Flutter/generated.xcconfig
+**/ios/**/Flutter/app.flx
+**/ios/**/Flutter/gen_snapshot
+**/ios/**/dSYM/
+**/ios/**/Pods/
+**/ios/**/.symlinks/
+**/ios/**/profile/
+**/ios/**/release/
+
+# Firebase / Secrets / Keys (ADD THESE)
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+**/assets/service_account.json
+**/backend/*.json
+Token.txt
+lib/firebase_options.dart 
+# ^ Optional: hide firebase_options.dart if you want to keep App IDs private
+
+# IDE
+.metadata
