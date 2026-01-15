@@ -44,8 +44,8 @@ Ensure you have the following installed:
 ### ✅ 2. Clone the Repository
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/YOUR-REPO-NAME.git
-cd YOUR-REPO-NAME
+git clone https://github.com/Varun311004/FindEasy.git
+cd FindEasy
 ```
 
 ### ✅ 3. Install Dependencies
